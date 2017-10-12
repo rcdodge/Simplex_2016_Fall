@@ -33,16 +33,29 @@ void Application::Display(void)
 
 	matrix4 m4View = m_pCameraMngr->GetViewMatrix(); //view Matrix
 	matrix4 m4Projection = m_pCameraMngr->GetProjectionMatrix(); //Projection Matrix
+
+	quaternion qx = glm::angleAxis(m_v3Rotation.x, AXIS_X);
+	quaternion qy = glm::angleAxis(m_v3Rotation.x, AXIS_Y);
+	quaternion qz = glm::angleAxis(m_v3Rotation.x, AXIS_Z);
+
+	quaternion m4Model = qx * qy * qz;
+
+	static float fValue = 0.0f;
+	//quaternion q1 = glm::angleAxis(fValue, AXIS_Z);
+
+	fValue += 1.0f;
+	//m4Model = ToMatrix4(q1);
+
 	
 	//Get a timer
-	static uint uClock = m_pSystem->GenClock();
-	float fTimer = m_pSystem->GetTimeSinceStart(uClock);
+	//static uint uClock = m_pSystem->GenClock();
+	//float fTimer = m_pSystem->GetTimeSinceStart(uClock);
 
 	//calculate the current position
-	matrix4 m4Rotation = glm::rotate(IDENTITY_M4, fTimer * 60.0f, vector3(0.0f, 0.0f, 1.0f));
-	matrix4 m4Model;
-	for (uint i = 0; i < 2500; ++i)
-		m4Model = m4Rotation * glm::translate(IDENTITY_M4, vector3(2.5f, 0.0f, 0.0f)) * glm::transpose(m4Rotation);
+	//matrix4 m4Rotation = glm::rotate(IDENTITY_M4, fTimer * 60.0f, vector3(0.0f, 0.0f, 1.0f));
+	//matrix4 m4Model;
+	//for (uint i = 0; i < 2500; ++i)
+		//m4Model = m4Rotation * glm::translate(IDENTITY_M4, vector3(2.5f, 0.0f, 0.0f)) * glm::transpose(m4Rotation);
 	
 	/*
 	//extra part, how to rotate around a point (in this case the base of the cone)
@@ -73,8 +86,8 @@ void Application::Display(void)
 	m_pMeshMngr->Print("FPS:");
 	m_pMeshMngr->PrintLine(std::to_string(m_pSystem->GetFPS()), C_RED);
 
-	m_pMeshMngr->Print("Time: ");
-	m_pMeshMngr->PrintLine(std::to_string(fTimer), C_RED);
+	//m_pMeshMngr->Print("Time: ");
+	//m_pMeshMngr->PrintLine(std::to_string(fTimer), C_RED);
 #pragma endregion
 		
 	//render list call
