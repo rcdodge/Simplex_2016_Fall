@@ -38,13 +38,15 @@ void Application::Display(void)
 	quaternion qy = glm::angleAxis(m_v3Rotation.x, AXIS_Y);
 	quaternion qz = glm::angleAxis(m_v3Rotation.x, AXIS_Z);
 
-	quaternion m4Model = qx * qy * qz;
+	quaternion qtModel = qx * qy * qz;
 
 	static float fValue = 0.0f;
-	//quaternion q1 = glm::angleAxis(fValue, AXIS_Z);
+	quaternion q1 = glm::angleAxis(fValue, AXIS_X);
+	quaternion q2 = glm::angleAxis(fValue, AXIS_Z);
+	quaternion q3 = glm::angleAxis(fValue, AXIS_Y);
 
 	fValue += 1.0f;
-	//m4Model = ToMatrix4(q1);
+	matrix4 m4Model = ToMatrix4(q1) * ToMatrix4(q2) * ToMatrix4(q3) * ToMatrix4(qtModel);
 
 	
 	//Get a timer

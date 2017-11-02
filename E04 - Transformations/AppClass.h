@@ -10,19 +10,61 @@ Date: 2017/05
 #include "ControllerConfiguration.h"
 #include "imgui\ImGuiObject.h"
 
-#include "MyMeshManager.h"
-
-#include "MyRigidBody.h"
-namespace Simplex
-{
+#include "MyMesh.h"
 
 class Application
 {
-	MyRigidBody* m_RB = nullptr;
-	std::vector<matrix4*> m_m4List;
+
+	// Create Meshes
+	#pragma region meshList
 	MyMesh* m_pMesh = nullptr;
-	MyCamera* m_pCamera = nullptr;
-	MyMeshManager* m_pMyMeshMngr = nullptr;
+	MyMesh* m_pMesh1 = nullptr;
+	MyMesh* m_pMesh2 = nullptr;
+	MyMesh* m_pMesh3 = nullptr;
+	MyMesh* m_pMesh4 = nullptr;
+	MyMesh* m_pMesh5 = nullptr;
+	MyMesh* m_pMesh6 = nullptr;
+	MyMesh* m_pMesh7 = nullptr;
+	MyMesh* m_pMesh8 = nullptr;
+	MyMesh* m_pMesh9 = nullptr;
+	MyMesh* m_pMesh10 = nullptr;
+	MyMesh* m_pMesh11 = nullptr;
+	MyMesh* m_pMesh12 = nullptr;
+	MyMesh* m_pMesh13 = nullptr;
+	MyMesh* m_pMesh14 = nullptr;
+	MyMesh* m_pMesh15 = nullptr;
+	MyMesh* m_pMesh16 = nullptr;
+	MyMesh* m_pMesh17 = nullptr;
+	MyMesh* m_pMesh18 = nullptr;
+	MyMesh* m_pMesh19 = nullptr;
+	MyMesh* m_pMesh20 = nullptr;
+	MyMesh* m_pMesh21 = nullptr;
+	MyMesh* m_pMesh22 = nullptr;
+	MyMesh* m_pMesh23 = nullptr;
+	MyMesh* m_pMesh24 = nullptr;
+	MyMesh* m_pMesh25 = nullptr;
+	MyMesh* m_pMesh26 = nullptr;
+	MyMesh* m_pMesh27 = nullptr;
+	MyMesh* m_pMesh28 = nullptr;
+	MyMesh* m_pMesh29 = nullptr;
+	MyMesh* m_pMesh30 = nullptr;
+	MyMesh* m_pMesh31 = nullptr;
+	MyMesh* m_pMesh32 = nullptr;
+	MyMesh* m_pMesh33 = nullptr;
+	MyMesh* m_pMesh34 = nullptr;
+	MyMesh* m_pMesh35 = nullptr;
+	MyMesh* m_pMesh36 = nullptr;
+	MyMesh* m_pMesh37 = nullptr;
+	MyMesh* m_pMesh38 = nullptr;
+	MyMesh* m_pMesh39 = nullptr;
+	MyMesh* m_pMesh40 = nullptr;
+	MyMesh* m_pMesh41 = nullptr;
+	MyMesh* m_pMesh42 = nullptr;
+	MyMesh* m_pMesh43 = nullptr;
+	MyMesh* m_pMesh44 = nullptr;
+	MyMesh* m_pMesh45 = nullptr;
+#pragma endregion Cool Meshes
+
 	String m_sProgrammer = "Alberto Bobadilla - labigm@rit.edu";
 private:
 	static ImGuiObject gui; //GUI object
@@ -313,11 +355,9 @@ private:
 	OUTPUT: ---
 	*/
 	Application& operator=(Application const& input);
-	
+
 #pragma endregion
 };
-
-} //namespace simplex
 
 #endif //__APPLICATIONCLASS_H_
 
