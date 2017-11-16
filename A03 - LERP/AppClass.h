@@ -24,6 +24,20 @@ class Application
 	
 private:
 	static ImGuiObject gui; //GUI object
+
+	//MY STUFF
+	// assign center values
+	float baseCenter = 0.0f;
+	vector3 vBaseCenter;
+	std::vector<vector3> vCurPosition;
+	std::vector<vector3> vNext;
+	int curOrbit = 0;
+	int nextLoc = 0;
+
+	// Calculate internal base angles and vector positions
+	std::vector<float> baseAngles;
+	std::vector<std::vector<vector3>> baseVec;
+	uint uSides = 3; //start with the minimal 3 sides
 	
 	uint m_uRenderCallCount = 0; //count of render calls per frame
 	uint m_uControllerCount = 0; //count of controllers connected

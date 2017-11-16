@@ -276,7 +276,34 @@ void MyMesh::GenerateCone(float a_fRadius, float a_fHeight, int a_nSubdivisions,
 	Init();
 
 	// Replace this with your code
-	GenerateCube(a_fRadius * 2.0f, a_v3Color);
+
+	// assign center values
+	float baseCenter = 0.0f;
+	float topCenter = baseCenter + a_fHeight;
+	vector3 vBaseCenter(baseCenter, baseCenter, baseCenter);
+	vector3 vTopCenter(baseCenter, topCenter, baseCenter);
+
+	// Calculate internal base angles and vector positions
+	vector<float> baseAngles(a_nSubdivisions + 1);
+	vector<vector3> baseVec(a_nSubdivisions + 1);
+
+	for (int i = 0; i <= a_nSubdivisions; i++) {
+		baseAngles[i] = ((360 / a_nSubdivisions)* (i));
+		baseVec[i] = (vector3((a_fRadius*cos(baseAngles[i] * PI / 180.0)), baseCenter, (a_fRadius*sin(baseAngles[i] * PI / 180.0))));
+	}
+
+	// Draw tris between points
+	for (int i = 0; i < a_nSubdivisions; i++) {
+		if (i != a_nSubdivisions) {
+			AddTri(baseVec[i + 1], vBaseCenter, baseVec[i]);
+			AddTri(baseVec[i], vTopCenter, baseVec[i + 1]);
+		}
+		else {
+			AddTri(baseVec[a_nSubdivisions], vBaseCenter, baseVec[0]);
+			AddTri(baseVec[a_nSubdivisions], vTopCenter, baseVec[0]);  
+		}
+	}
+	
 	// -------------------------------
 
 	// Adding information about color
@@ -300,7 +327,43 @@ void MyMesh::GenerateCylinder(float a_fRadius, float a_fHeight, int a_nSubdivisi
 	Init();
 
 	// Replace this with your code
-	GenerateCube(a_fRadius * 2.0f, a_v3Color);
+	// -------------------------------------------------
+
+	// assign center values
+	float baseCenter = 0.0f;
+	float topCenter = baseCenter + a_fHeight;
+	vector3 vBaseCenter(baseCenter, baseCenter, baseCenter);
+	vector3 vTopCenter(baseCenter, topCenter, baseCenter);
+
+	// Calculate internal base/top angles and vector positions
+	vector<float> baseAngles(a_nSubdivisions + 1);
+	vector<vector3> baseVec(a_nSubdivisions + 1);
+
+	vector<float> topAngles(a_nSubdivisions + 1);
+	vector<vector3> topVec(a_nSubdivisions + 1);
+
+	for (int i = 0; i <= a_nSubdivisions; i++) {
+		baseAngles[i] = ((360 / a_nSubdivisions)* (i));
+		baseVec[i] = (vector3((a_fRadius*cos(baseAngles[i] * PI / 180.0)), baseCenter, (a_fRadius*sin(baseAngles[i] * PI / 180.0))));
+
+		topAngles[i] = ((360 / a_nSubdivisions)* (i));
+		topVec[i] = (vector3((a_fRadius*cos(topAngles[i] * PI / 180.0)), topCenter, (a_fRadius*sin(topAngles[i] * PI / 180.0))));
+	}
+
+	// Draw tris between points
+	for (int i = 0; i < a_nSubdivisions; i++) {
+		if (i != a_nSubdivisions) {
+			AddTri(baseVec[i + 1], vBaseCenter, baseVec[i]);
+			AddTri(topVec[i], vTopCenter, topVec[i + 1]);
+			AddQuad(baseVec[i + 1], baseVec[i], topVec[i + 1], topVec[i]);
+		}
+		else {
+			AddTri(baseVec[a_nSubdivisions], vBaseCenter, baseVec[0]);
+			AddTri(topVec[a_nSubdivisions], vTopCenter, topVec[0]);
+			AddQuad(baseVec[i + 1], baseVec[i], topVec[i + 1], topVec[i]);
+		}
+	}
+
 	// -------------------------------
 
 	// Adding information about color
@@ -330,7 +393,50 @@ void MyMesh::GenerateTube(float a_fOuterRadius, float a_fInnerRadius, float a_fH
 	Init();
 
 	// Replace this with your code
-	GenerateCube(a_fOuterRadius * 2.0f, a_v3Color);
+
+	// assign center values
+	float baseCenter = 0.0f;
+	float topCenter = baseCenter + a_fHeight;
+	vector3 vBaseCenter(baseCenter, baseCenter, baseCenter);
+	vector3 vTopCenter(baseCenter, topCenter, baseCenter);
+
+	// Calculate internal base/top angles and vector positions
+	vector<float> baseAngles(a_nSubdivisions + 1);
+	vector<vector3> outerBaseVec(a_nSubdivisions + 1);
+	vector<vector3> innerBaseVec(a_nSubdivisions + 1);
+
+	vector<float> topAngles(a_nSubdivisions + 1);
+	vector<vector3> outerTopVec(a_nSubdivisions + 1);
+	vector<vector3> innerTopVec(a_nSubdivisions + 1);
+
+	for (int i = 0; i <= a_nSubdivisions; i++) {
+		baseAngles[i] = ((360 / a_nSubdivisions)* (i));
+		outerBaseVec[i] = (vector3((a_fOuterRadius*cos(baseAngles[i] * PI / 180.0)), baseCenter, (a_fOuterRadius*sin(baseAngles[i] * PI / 180.0))));
+		innerBaseVec[i] = (vector3((a_fInnerRadius*cos(baseAngles[i] * PI / 180.0)), baseCenter, (a_fInnerRadius*sin(baseAngles[i] * PI / 180.0))));
+
+		topAngles[i] = ((360 / a_nSubdivisions)* (i));
+		outerTopVec[i] = (vector3((a_fOuterRadius*cos(topAngles[i] * PI / 180.0)), topCenter, (a_fOuterRadius*sin(topAngles[i] * PI / 180.0))));
+		innerTopVec[i] = (vector3((a_fInnerRadius*cos(topAngles[i] * PI / 180.0)), topCenter, (a_fInnerRadius*sin(topAngles[i] * PI / 180.0))));
+	}
+
+	// Draw tris between points
+	for (int i = 0; i < a_nSubdivisions; i++) {
+		if (i != a_nSubdivisions) {
+			AddQuad(innerTopVec[i], innerTopVec[i + 1], outerTopVec[i], outerTopVec[i + 1]);
+			AddQuad(innerBaseVec[i + 1], innerBaseVec[i], outerBaseVec[i + 1], outerBaseVec[i]);
+
+			AddQuad(outerBaseVec[i + 1], outerBaseVec[i], outerTopVec[i + 1], outerTopVec[i]);
+			AddQuad(innerBaseVec[i], innerBaseVec[i + 1], innerTopVec[i], innerTopVec[i + 1]);
+		}
+		else {
+			AddQuad(innerTopVec[i], innerTopVec[i + 1], outerTopVec[i], outerTopVec[i + 1]);
+			AddQuad(innerBaseVec[i], innerBaseVec[i + 1], outerBaseVec[i], outerBaseVec[i + 1]);
+
+			AddQuad(outerBaseVec[i + 1], outerBaseVec[i], outerTopVec[i + 1], outerTopVec[i]);
+			AddQuad(innerBaseVec[i], innerBaseVec[i + 1], innerTopVec[i], innerTopVec[i + 1]);
+		}
+	}
+
 	// -------------------------------
 
 	// Adding information about color
@@ -387,7 +493,75 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 	Init();
 
 	// Replace this with your code
-	GenerateCube(a_fRadius * 2.0f, a_v3Color);
+
+	// Currently Circle does not work - The connections / math connecting the vertexes is wrong.
+	// The code's purpose was to build the circle in two halves and segment the vertexes horiz and verti by the subdivisions - 
+	// The bottom half started at a single vertex and each row grew to meet the radius, while the top half started at the radius and shrunk to a single vertex.
+	// The draw methods connected the bottom row to the bottom vertex using tris,
+	// It would then draw quads to connect the rest of the points using a two vertex build with curr/next values
+	// Lastly it would draw tris for the top row to the top vertex.
+
+
+	// assign center values
+	float baseCenter = 0.0f;
+	float center = baseCenter + a_fRadius / 2.0f;
+	float topCenter = baseCenter + a_fRadius;
+	vector3 vBaseCenter(baseCenter, baseCenter, baseCenter);
+	vector3 vTopCenter(topCenter, topCenter, topCenter);
+
+	// Calculate internal base/top angles and vector positions
+	vector<float> baseAngles(a_nSubdivisions + 1);
+	vector<vector3> baseVec((a_nSubdivisions * a_nSubdivisions) + 1);
+	vector<vector3> nextVec((a_nSubdivisions * a_nSubdivisions) + 2);
+
+	// initialize location/sizing variables
+	int loc = 0;
+	float r = a_fRadius / a_nSubdivisions;
+	
+	// place vectors for bottom half of circle
+	while(center >= baseCenter + r) {
+		for (int i = 0; i <= a_nSubdivisions / 2; i++) {
+			baseAngles[i] = ((360 / a_nSubdivisions)* (i));
+			baseVec[loc + i] = (vector3((r*cos(baseAngles[i] * PI / 180.0)), baseCenter + r, (r*sin(baseAngles[i] * PI / 180.0))));	
+			nextVec[loc + i] = (vector3((r*cos(baseAngles[i] * PI / 180.0)), baseCenter + r + r, (r*sin(baseAngles[i] * PI / 180.0))));
+		}
+		loc += a_nSubdivisions / 2;
+		r += r;
+	}
+
+	// place vectors for top half of circle
+	while(topCenter >= baseCenter + r) {
+		for (int i = (a_nSubdivisions / 2) + (a_fRadius / a_nSubdivisions); i <= a_nSubdivisions; i++) {
+			baseAngles[i] = ((360 / a_nSubdivisions)* (i));
+			baseVec[loc + i] = (vector3(((a_fRadius - r)*cos(baseAngles[i] * PI / 180.0)), baseCenter + r, ((a_fRadius - r)*sin(baseAngles[i] * PI / 180.0))));
+			nextVec[loc + i] = (vector3(((a_fRadius - r)*cos(baseAngles[i] * PI / 180.0)), baseCenter + r + r, ((a_fRadius - r)*sin(baseAngles[i] * PI / 180.0))));
+		}
+		loc += a_nSubdivisions / 2;
+		r += r;
+	}
+
+	// reinitialize variables
+	loc = 0;
+	r = a_fRadius / a_nSubdivisions;
+
+	// draw initial tris
+	for (int i = 0; i < a_nSubdivisions; i++) {
+		AddTri(baseVec[i], vBaseCenter, baseVec[i + 1]);
+	}
+	
+	// Draw quads between the rows
+	while (topCenter - (a_fRadius / a_nSubdivisions) >= baseCenter + r) {
+		for (int i = 0; i < a_nSubdivisions; i++) {
+			AddQuad(baseVec[loc + i], baseVec[loc + i + 1], nextVec[loc + i], nextVec[loc + i + 1]);
+		}
+		loc += a_nSubdivisions;
+		r += r;
+	}
+
+	// draw final tris
+	for (int i = 0; i < a_nSubdivisions; i++) {
+		AddTri(baseVec[loc + i + 1], vTopCenter, baseVec[loc + i]);
+	}
 	// -------------------------------
 
 	// Adding information about color

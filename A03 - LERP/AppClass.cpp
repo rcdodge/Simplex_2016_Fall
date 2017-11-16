@@ -2,11 +2,11 @@
 void Application::InitVariables(void)
 {
 	////Change this to your name and email
-	//m_sProgrammer = "Alberto Bobadilla - labigm@rit.edu";
+	m_sProgrammer = "Ron Dodge - rcd7972@rit.edu";
 
 	////Alberto needed this at this position for software recording.
 	//m_pWindow->setPosition(sf::Vector2i(710, 0));
-	
+
 	//Set the position and target of the camera
 	//(I'm at [0,0,10], looking at [0,0,0] and up is the positive Y axis)
 	m_pCameraMngr->SetPositionTargetAndUp(AXIS_Z * 20.0f, ZERO_V3, AXIS_Y);
@@ -20,9 +20,9 @@ void Application::InitVariables(void)
 	{
 		m_v4ClearColor = vector4(ZERO_V3, 1.0f);
 	}
-	
+
 	//if there are no segments create 7
-	if(m_uOrbits < 1)
+	if (m_uOrbits < 1)
 		m_uOrbits = 7;
 
 	float fSize = 1.0f; //initial size of orbits
@@ -30,11 +30,11 @@ void Application::InitVariables(void)
 	//creating a color using the spectrum 
 	uint uColor = 650; //650 is Red
 	//prevent division by 0
-	float decrements = 250.0f / (m_uOrbits > 1? static_cast<float>(m_uOrbits - 1) : 1.0f); //decrement until you get to 400 (which is violet)
+	float decrements = 250.0f / (m_uOrbits > 1 ? static_cast<float>(m_uOrbits - 1) : 1.0f); //decrement until you get to 400 (which is violet)
 	/*
 		This part will create the orbits, it start at 3 because that is the minimum subdivisions a torus can have
 	*/
-	uint uSides = 3; //start with the minimal 3 sides
+
 	for (uint i = uSides; i < m_uOrbits + uSides; i++)
 	{
 		vector3 v3Color = WaveLengthToRGB(uColor); //calculate color based on wavelength
@@ -42,6 +42,22 @@ void Application::InitVariables(void)
 		fSize += 0.5f; //increment the size for the next orbit
 		uColor -= static_cast<uint>(decrements); //decrease the wavelength
 	}
+
+	baseVec = std::vector<std::vector<vector3>>();
+	vCurPosition = std::vector<vector3>();
+
+	for (int i = 0; i < m_uOrbits; i++) {
+		baseVec.push_back(std::vector<vector3>());
+		for (int j = 1; j <= uSides; j++)
+			baseVec[i].push_back(vector3((fSize*cos(((360 / uSides)*j) * PI / 180.0)), (fSize*sin(((360 / uSides)*j) * PI / 180.0)), baseCenter));
+		uSides++;
+		fSize += 0.5f;
+		vNext.push_back(baseVec[i][0]);
+		vCurPosition.push_back(ZERO_V3);
+	}
+
+
+	
 }
 void Application::Update(void)
 {
@@ -58,6 +74,7 @@ void Application::Display(void)
 {
 	// Clear the screen
 	ClearScreen();
+	vector3 v3CurrentPos;
 
 	matrix4 m4View = m_pCameraMngr->GetViewMatrix(); //view Matrix
 	matrix4 m4Projection = m_pCameraMngr->GetProjectionMatrix(); //Projection Matrix
@@ -65,30 +82,59 @@ void Application::Display(void)
 	/*
 		The following offset will orient the orbits as in the demo, start without it to make your life easier.
 	*/
-	//m4Offset = glm::rotate(IDENTITY_M4, 90.0f, AXIS_Z);
+	m4Offset = glm::rotate(IDENTITY_M4, 90.0f, AXIS_Z);
 
+	//Get a timer
+	static double fTimer = 0.0;	//store the new timer
+	static uint uClock = m_pSystem->GenClock(); //generate a new clock for that timer
+	fTimer += m_pSystem->GetDeltaTime(uClock); //get the delta time for that timer
+	static float fAnim = 4.0f;
+
+	
+
+	
 	// draw a shapes
-	for (uint i = 0; i < m_uOrbits; ++i)
+	for (uint i = 0; i < m_uOrbits; i++)
 	{
 		m_pMeshMngr->AddMeshToRenderList(m_shapeList[i], glm::rotate(m4Offset, 90.0f, AXIS_X));
 
+		// make ball move to next point. wowoh
+		/*float fPercent = static_cast<float>(MapValue(fTimer, 0.0, 5.0, 0.0, 1.0));
+		if (fPercent >= 1.0f) {
+			fTimer = 0.0f;
+			nextLoc++;
+			if (nextLoc == baseVec[curOrbit].size()) {
+				curOrbit++;
+				nextLoc = 0;
+			}
+			vNext[i] = baseVec[curOrbit][nextLoc];
+		}*/
+
 		//calculate the current position
-		vector3 v3CurrentPos = ZERO_V3;
+		vector3 v3Next = vNext[i];
+		vector3 v3CurrentPos = vCurPosition[curOrbit];
+		v3CurrentPos = glm::lerp(v3CurrentPos, v3Next, 0.1f);
+
 		matrix4 m4Model = glm::translate(m4Offset, v3CurrentPos);
+		vCurPosition[i] = v3CurrentPos;
 
 		//draw spheres
 		m_pMeshMngr->AddSphereToRenderList(m4Model * glm::scale(vector3(0.1)), C_WHITE);
 	}
+
+
+
+
 
 	//render list call
 	m_uRenderCallCount = m_pMeshMngr->Render();
 
 	//clear the render list
 	m_pMeshMngr->ClearRenderList();
-	
+
 	//draw gui
 	DrawGUI();
-	
+
 	//end the current frame (internally swaps the front and back buffers)
 	m_pWindow->display();
 }
