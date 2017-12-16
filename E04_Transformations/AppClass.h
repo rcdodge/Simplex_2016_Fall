@@ -14,10 +14,10 @@ Date: 2017/05
 
 class Application
 {
-	vector3 m_v3Rotation;
-	String m_sProgrammer = "Alberto Bobadilla - labigm@rit.edu";
 	MyMesh* m_pMesh = nullptr;
+	MyMesh* m_pMesh1 = nullptr;
 
+	String m_sProgrammer = "Alberto Bobadilla - labigm@rit.edu";
 private:
 	static ImGuiObject gui; //GUI object
 

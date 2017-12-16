@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
+<<<<<<< HEAD
+VisualStudioVersion = 15.0.26430.16
+=======
 VisualStudioVersion = 15.0.26730.12
+>>>>>>> a84a5dce1bdee0f572fd7e4746f91428e82d4ffd
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BasicX", "BasicX\BasicX.vcxproj", "{E745E25C-0143-42AC-A486-1395A4C972AE}"
 EndProject
@@ -122,7 +126,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "24_Physics", "24_Physics\24
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "E03_Repository", "E03_Repository\E03_Repository.vcxproj", "{A69CCDEC-AB8A-4080-82D4-065EE4EE7BFD}"
 EndProject
+<<<<<<< HEAD
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "E04_Transformations", "E04_Transformations\E04_Transformations.vcxproj", "{5EE13AFE-BF01-46FD-A29B-864ED7CFCD05}"
+=======
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "E04 - Transformations", "E04 - Transformations\E04 - Transformations.vcxproj", "{8CAFA661-C012-46BF-8EB8-A99F0D8FB678}"
+>>>>>>> a84a5dce1bdee0f572fd7e4746f91428e82d4ffd
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -280,10 +288,17 @@ Global
 		{A69CCDEC-AB8A-4080-82D4-065EE4EE7BFD}.Debug|x86.Build.0 = Debug|Win32
 		{A69CCDEC-AB8A-4080-82D4-065EE4EE7BFD}.Release|x86.ActiveCfg = Release|Win32
 		{A69CCDEC-AB8A-4080-82D4-065EE4EE7BFD}.Release|x86.Build.0 = Release|Win32
+<<<<<<< HEAD
+		{5EE13AFE-BF01-46FD-A29B-864ED7CFCD05}.Debug|x86.ActiveCfg = Debug|Win32
+		{5EE13AFE-BF01-46FD-A29B-864ED7CFCD05}.Debug|x86.Build.0 = Debug|Win32
+		{5EE13AFE-BF01-46FD-A29B-864ED7CFCD05}.Release|x86.ActiveCfg = Release|Win32
+		{5EE13AFE-BF01-46FD-A29B-864ED7CFCD05}.Release|x86.Build.0 = Release|Win32
+=======
 		{8CAFA661-C012-46BF-8EB8-A99F0D8FB678}.Debug|x86.ActiveCfg = Debug|Win32
 		{8CAFA661-C012-46BF-8EB8-A99F0D8FB678}.Debug|x86.Build.0 = Debug|Win32
 		{8CAFA661-C012-46BF-8EB8-A99F0D8FB678}.Release|x86.ActiveCfg = Release|Win32
 		{8CAFA661-C012-46BF-8EB8-A99F0D8FB678}.Release|x86.Build.0 = Release|Win32
+>>>>>>> a84a5dce1bdee0f572fd7e4746f91428e82d4ffd
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -330,9 +345,13 @@ Global
 		{44D2C07B-798D-461B-9019-DFB240593888} = {5D1FB011-A2D8-4107-890B-BF1ACD0C0994}
 		{58CB6636-1057-466F-AB91-BADB3395421A} = {E0A09DA7-AF20-49C2-84DC-481ADDD01DCA}
 		{A69CCDEC-AB8A-4080-82D4-065EE4EE7BFD} = {13CD5CAF-2378-4851-9BEB-DF01D5A85C42}
+<<<<<<< HEAD
+		{5EE13AFE-BF01-46FD-A29B-864ED7CFCD05} = {13CD5CAF-2378-4851-9BEB-DF01D5A85C42}
+=======
 		{8CAFA661-C012-46BF-8EB8-A99F0D8FB678} = {13CD5CAF-2378-4851-9BEB-DF01D5A85C42}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {77C0A372-F69A-4076-A27C-C373B9A38126}
+>>>>>>> a84a5dce1bdee0f572fd7e4746f91428e82d4ffd
 	EndGlobalSection
 EndGlobal
